@@ -1,0 +1,205 @@
+<html>
+    <head>
+    </head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/recommender_style.css')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://loopj.com/jquery-tokeninput/src/jquery.tokeninput.js"></script>
+    <link rel="icon" type="image/png" href="{{ url_for('static',filename='images/favicon.ico')}}"/>
+    <body>
+    <image id="menu-icon" alt="Logo" src="{{url_for('static',filename='images/recommendation_logo.png') }}">
+        <!-- @start #wrapper -->
+        
+        <!-- <div id="wrapper"> -->
+            <h1 class="title">Welcome to <image alt="title_img" class="titleImage" src="{{url_for('static',filename='images/Grozana Title.png') }}">
+            </h1>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 item">
+                        <div id="searchbar">
+                            <label>Add Ingredients</label>
+                            <input type="text" id="search_ingredients" name="search_ingredients" placeholder="Search for Ingredients">
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 item">
+                        <section id="recommendationSection" name="recommendationSection" style="display: none;">
+                            <label class="recommendationTitle">Recommended Ingredients:</label>
+                            <div name="existing_table" id="existing_table"></div>
+                        </section>
+                        <form id="dishForm" name="dishForm" action="/sendDishes" method="post" role="dishForm" style="display: none;">
+                            <section id="dishSection" name="dishSection">
+                                <label class="dishTitle">Are you cooking something like? </label>
+                                <div name="existing_table_2" id="existing_table_2"></div>
+                                <input type="button" onclick="sendDishes()" value="Submit">
+                            </section>
+                        </form>
+                    </div>
+                    <div class="col-lg-6 item">
+                        <image id="cart-spill" alt="Logo" src="{{url_for('static',filename='images/cart_spill.png') }}"></image>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 item">
+                        <section id="shelfIngSection" style="display: none;">
+                            <div name="shelf_div" id="shelf_div"></div>
+                        </section>
+                    </div>
+                    <div class="col-lg-4 item"></div>
+                    <div class="col-lg-4 item"></div>
+                </div>
+            </div>
+        <!-- </div> -->
+        
+        <!-- @end #wrapper -->
+    </body>​
+    <script>
+        var list_of_ingredients = [];
+        
+        $(document).ready(function () {
+            $.ajax({
+            url: '/getIngredients',
+            data: $('form').serialize(),
+            type: 'POST',
+            success: function(response) {
+                var result = JSON.parse(response);
+                setIngredientList(result)
+            },
+            error: function(error) {
+                console.log(error);
+            }
+            });
+        });
+
+        function setIngredientList(result){
+            $('#search_ingredients').tokenInput(result, {
+                theme: "facebook",
+                hintText: "Search for Ingredient?",
+                noResultsText: "Nothin' found.",
+                searchingText: "Finding Ingredient...",
+                preventDuplicates: true,
+                onAdd: function(item){
+                    list_of_ingredients.push(item);
+                    $("#recommendationSection").hide();
+                    $("#dishForm").hide();
+                    $( ".recommendedIngredients" ).remove();
+                    $(".kuchDishes").remove()
+                    $(".shelfIngredients").remove()
+                    
+                    if(list_of_ingredients.length>4){
+                        getRecommendation(list_of_ingredients)
+                    }
+                    // sync(this.tokenInput("get"));
+                },
+                onDelete: function(item){
+                    list_of_ingredients = removeItem(list_of_ingredients,item)
+                    $("#recommendationSection").hide();
+                    $("#dishForm").hide();
+                    $( ".recommendedIngredients" ).remove();
+                    $(".kuchDishes").remove()
+                    $(".shelfIngredients").remove()
+                    if(list_of_ingredients.length>4){
+                        getRecommendation(list_of_ingredients)
+                    }
+                    // sync(this.tokenInput("get"));
+                },
+                onReady: function(item){
+                    document.getElementById("search_ingredients").focus();
+                }
+            });
+        }
+        function removeItem(arr, value){
+            return arr.filter(f => f !== value)
+        }
+        function getRecommendation(ingredient_list){
+            $.ajax({
+            url: '/getRecommendation',
+            data: JSON.stringify({x: ingredient_list}),
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            success: function(response) {
+                var result = JSON.parse(response);
+                var str='';
+                str="<table class='recommendedIngredients' id ='recommendedIngredients' border='1' align='center'>";
+                $.each(result.result.ingredients,function(x,value){
+                    str+="<tr>";
+                    str+="<td class='ingredientNames'>"+value+"</td>";
+                    str+="</tr>";
+                });
+                str+="</table>";
+                $("#recommendationSection").show();
+                $("#existing_table").after(str);
+
+                var str='';
+                str="<table class='kuchDishes' id ='kuchDishes' align='center'>";
+                
+                lengthOfDishes= Object.keys(result.result.dish).length
+                if(lengthOfDishes>0){
+                    $.each(result.result.dish,function(x,value){
+                        str+="<tr>";
+                        str+="<td class='dishNames'>"+value.name+"</td>";
+                        stripped_val = value.name.replace(' ', '');
+                        lowercase_name = stripped_val.toLowerCase();
+                        
+                        str+="<td class='dishNames'><input type='checkbox' name='dish[]' id="+lowercase_name+" value="+value.id+"></td>";
+                        str+="</tr>";
+                    });
+                    str+="</table>";
+                    $("#dishForm").show();
+                    $("#existing_table_2").after(str);
+                }
+
+            },
+            error: function(error) {
+                console.log(error);
+            }
+            });
+
+        }
+        
+        function sendDishes(){
+            number_of_checkbox_selected = $(":checkbox:checked").length;
+            if(number_of_checkbox_selected>0){
+                ing_list = []
+                $.each(list_of_ingredients,function(x,value){
+                    ing_list.push(value.name)
+                });
+
+                if ($(".shelfIngredients")[0]){
+                    $(".shelfIngredients").remove()
+                }
+
+                $.ajax({
+                    url: '/sendDishes',
+                    data: $('#dishForm').serialize()+"&basket="+ing_list,
+                    type: 'POST',
+                    success: function(response) {
+                        var result = JSON.parse(response);
+                        var str='';
+                        str="<fieldset class='shelfIngredients' id ='shelfIngredients'>";
+                        $.each(result.response,function(x,value){
+                            
+                            str+="<legend class='userDishTitle'>"+value.dish+":</legend>"
+                            var abc = value.shelf
+                            let text = abc.toString();
+                            text = text.split(',').join(', ')
+                            str+="<p id='names_shelf_ing'>"+text+"</p>";
+                        });
+                        str+="</fieldset>";
+                        $("#shelfIngSection").show();
+                        $("#shelf_div").after(str);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            }else{
+                alert("Please select a dish.")
+            }
+        }
+    </script>
+</html>

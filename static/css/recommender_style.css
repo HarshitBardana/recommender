@@ -1,0 +1,393 @@
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 62.5%;
+    line-height: 1;
+    color: #444;
+    padding-top: 25px;
+    padding-bottom: 65px;
+}
+br {
+    display: block;
+    line-height: 1.6em;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+ol,
+ul {
+    list-style: none;
+    text-transform: capitalize;
+}
+input,
+textarea {
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: none;
+}
+blockquote,
+q {
+    quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+strong,
+b {
+    font-weight: bold;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+img {
+    border: 0;
+    max-width: 100%;
+}
+h1 {
+    font-family: 'Helvetica', Arial, sans-serif;
+    font-weight: normal;
+    /* font-size: 5.35em; */
+    line-height: 1.6em;
+    margin-bottom: 15px;
+    color: #616161;
+    text-align: center;
+    font-size: 40px;
+}
+p {
+    font-size: 1.6em;
+    line-height: 1.25em;
+    margin-bottom: 15px;
+}
+/* page structure */
+
+#wrapper {
+    display: block;
+    height: 90% ;
+    width: 90%;
+    margin: 25px 50px;
+    background: #fff;
+    padding: 35px 22px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.4);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+#searchbar {
+    display: block;
+    padding: 25px 0px;
+    border-radius: 4px;
+}
+/* custom settings */
+
+.token-input-token-facebook p {
+    font-size: 1.0em;
+    color: #555;
+}
+.token-input-selected-token-facebook p {
+    color: #fff;
+}
+/** tokeninputs **/
+/* Example tokeninput style #1: Token vertical list*/
+
+ul.token-input-list {
+    overflow: hidden;
+    height: auto !important;
+    height: 1%;
+    width: 400px;
+    border: 1px solid #999;
+    cursor: text;
+    font-size: 12px;
+    font-family: Verdana;
+    z-index: 999;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    list-style-type: none;
+    clear: left;
+}
+ul.token-input-list li {
+    list-style-type: none;
+}
+ul.token-input-list li input {
+    border: 0;
+    width: 350px;
+    padding: 3px 8px;
+    background-color: white;
+    -webkit-appearance: caret;
+}
+li.token-input-token {
+    overflow: hidden;
+    height: auto !important;
+    height: 1%;
+    margin: 3px;
+    padding: 3px 5px;
+    background-color: #d0efa0;
+    color: #000;
+    font-weight: bold;
+    cursor: default;
+    display: block;
+}
+li.token-input-token p {
+    float: left;
+    padding: 0;
+    margin: 0;
+}
+li.token-input-token span {
+    float: right;
+    color: #777;
+    cursor: pointer;
+}
+li.token-input-selected-token {
+    background-color: #08844e;
+    color: #fff;
+}
+li.token-input-selected-token span {
+    color: #bbb;
+}
+div.token-input-dropdown {
+    position: absolute;
+    width: 400px;
+    background-color: #fff;
+    overflow: hidden;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    cursor: default;
+    font-size: 12px;
+    font-family: Verdana;
+    z-index: 1;
+}
+div.token-input-dropdown p {
+    margin: 0;
+    padding: 5px;
+    font-weight: bold;
+    color: #777;
+}
+div.token-input-dropdown ul {
+    margin: 0;
+    padding: 0;
+}
+div.token-input-dropdown ul li {
+    background-color: #fff;
+    padding: 3px;
+    list-style-type: none;
+}
+div.token-input-dropdown ul li.token-input-dropdown-item {
+    background-color: #fafafa;
+}
+div.token-input-dropdown ul li.token-input-dropdown-item2 {
+    background-color: #fff;
+}
+div.token-input-dropdown ul li em {
+    font-weight: bold;
+    font-style: normal;
+}
+div.token-input-dropdown ul li.token-input-selected-dropdown-item {
+    background-color: #d0efa0;
+}
+/** tokeninputs facebook **/
+/* Example tokeninput style #2: Facebook style */
+
+ul.token-input-list-facebook {
+    overflow: scroll;
+    /* min-height: 15%; */
+    height: auto;
+    width: 550px;
+    border: 2px solid #5efd63;
+    cursor: text;
+    font-size: 12px;
+    font-family: Verdana;
+    min-height: 1px;
+    z-index: 999;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    list-style-type: none;
+    clear: left;
+    text-transform: capitalize;
+    border-radius: 3px;
+}
+ul.token-input-list-facebook li input {
+    border: 0;
+    width: 100px;
+    padding: 3px 8px;
+    background-color: white;
+    margin: 2px 0;
+    -webkit-appearance: caret;
+}
+li.token-input-token-facebook {
+    overflow: hidden;
+    height: 25px;
+    margin: 5px;
+    padding: 3px 3px;
+    background-color: #8bdee7;
+    cursor: default;
+    border: 1px solid #000;
+    font-size: 11px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    float: left;
+    white-space: nowrap;
+    vertical-align: center;
+}
+li.token-input-token-facebook p {
+    display: inline;
+    padding: 0;
+    margin-left: 2px;
+    width: auto;
+    text-align: center;
+    color: #000;
+}
+li.token-input-token-facebook span {
+    color: #000;
+    margin-left: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+li.token-input-selected-token-facebook {
+    background-color: #5670a6;
+    border: 1px solid #3b5998;
+    color: #fff;
+}
+li.token-input-input-token-facebook {
+    float: left;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+div.token-input-dropdown-facebook {
+    position: absolute;
+    width: 400px;
+    background-color: #fff;
+    overflow: hidden;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    cursor: default;
+    font-size: 11px;
+    font-family: Verdana;
+    z-index: 1;
+}
+div.token-input-dropdown-facebook p {
+    margin: 0;
+    padding: 5px;
+    font-weight: bold;
+    color: #777;
+}
+div.token-input-dropdown-facebook ul {
+    margin: 0;
+    padding: 0;
+}
+div.token-input-dropdown-facebook ul li {
+    background-color: #fff;
+    padding: 3px;
+    margin: 0;
+    list-style-type: none;
+}
+div.token-input-dropdown-facebook ul li.token-input-dropdown-item-facebook {
+    background-color: #fff;
+}
+div.token-input-dropdown-facebook ul li.token-input-dropdown-item2-facebook {
+    background-color: #fff;
+}
+div.token-input-dropdown-facebook ul li em {
+    font-weight: bold;
+    font-style: normal;
+}
+div.token-input-dropdown-facebook ul li.token-input-selected-dropdown-item-facebook {
+    background-color: #3b5998;
+    color: #fff;
+}
+body{
+    background-color: #001646 !important;
+}
+#menu-icon {
+    display: hidden;
+    width: 130px;
+    height: 100px;
+}
+.title{
+    color:#01c113;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 50px;
+}
+label{
+    color: #fff;
+}
+#cart-spill {
+    display: hidden;
+    width:500px;
+    height:300px;
+    margin: 20px;
+}
+#recommendedIngredients{
+    margin: 30px;
+    color: white;
+}
+#recommendationSection{
+    margin: 20px;
+}
+.recommendationTitle{
+    color:#01c113;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+}
+.ingredientNames{
+    width:auto; 
+    text-align:center;
+    padding:10px;
+    text-transform: capitalize;
+}
+.titleImage{
+    width: 400px;
+    height: 100px;
+    margin-bottom: 20px;
+}
+.dishTitle{
+    color:#01c113;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+}
+.dishNames{
+    width:auto; 
+    text-align:center;
+    text-transform: capitalize;
+    padding: 10px;
+}
+#kuchDishes{
+    margin: 30px;
+    color: white;
+}
+.userDishTitle{
+    color: #01c113;
+    text-transform: capitalize;
+    padding: 20px;
+}
+#names_shelf_ing{
+    text-transform: capitalize;
+    color: white;
+}
